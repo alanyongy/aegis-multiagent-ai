@@ -98,6 +98,7 @@ This simulation creates a consistent, up-to-date view of all agents’ planned m
 > 
 > The simulation-based decentralized strategy avoids this problem entirely by giving every agent an identical, up-to-date plan from the start of each round.
 > </details>
+
 &nbsp;
 # 🏆 Results & Impact
 
@@ -144,11 +145,12 @@ This includes running heavier algorithms such as A* pathfinding multiple times �
 🧩 **Balancing Accuracy and Performance**  
 Careful trade-offs between simulation detail and runtime efficiency enable practical real-time decision-making in multi-agent contexts.
 
-&nbsp
+&nbsp;
 ## ⚙️ How to Run
 > <details>
 > <summary>Click to expand</summary>
-> This repo contains **only the agent code**. To run it, you must install the [AEGIS simulator](https://cpsc-383.github.io/aegis/) locally.
+>
+> This repo contains only the agent code. To run it, you must install the [AEGIS simulator](https://cpsc-383.github.io/aegis/) locally.
 > 
 > 1. Follow the installation guide on the [AEGIS website](https://cpsc-383.github.io/aegis/mas/getting-started/installation/)
 > 2. Place this repo’s `exampleagent.py` file in the appropriate agents directory  
