@@ -14,11 +14,9 @@ Effective coordination under communication constraints is challenging. The task 
 
 ### 🎯 Key Features  
 - Multi-agent coordination under limited, delayed communication  
-- Simulation of all agents’ future actions locally to create virtual shared memory  
-- Synchronization of agent states at start of each round via a single message  
-- Energy management and hazard navigation integrated into agent decision-making  
-- Designed for optimal survivor rescue in minimal turns
-- Strategy 
+- Local simulation of all agents’ actions to create virtual shared memory  
+- Energy management, pathfinding, and hazard navigation integrated into agent decision-making  
+- Designed for optimal survivor rescue in minimal turns  
 
 &nbsp;
 # 🧠 Implementation Overview
