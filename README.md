@@ -8,7 +8,7 @@ A coordinated multi-agent AI built in Python for the University of Calgary’s C
 AEGIS is a multi-agent rescue simulation where multiple autonomous agents must collaborate to rescue survivors trapped in a hazardous grid world. Survivors may be trapped under rubble that requires multiple agents working simultaneously to clear, and agents have limited energy, requiring strategic use of charging stations. **Communication between agents is limited by a 1-turn delay in message passing.**
 
 **Why it matters:**  
-Effective coordination under communication constraints is challenging. The task demands agents act efficiently and collaboratively despite partial information and dynamic hazards, aiming to minimize total rescue time. 
+Designing systems that coordinate effectively under communication constraints mirrors challenges in real-world robotics, distributed AI, and disaster response simulations. The project pushed us to develop agents that could reason about each other's future actions in a constantly changing environment — achieving coordination without constant communication.
 
 ---
 
@@ -21,38 +21,33 @@ Effective coordination under communication constraints is challenging. The task 
 &nbsp;
 # 🧠 Implementation Overview
 🤖 **Simulated Shared Memory Across Agents**
-
-Communication between agents suffers a 1-turn delay. To overcome this, the AI synchronizes full agent state with a single message at the start of each round. Each agent then locally simulates the actions of all other agents (including themselves) in the expected action order for the remainder of the round.
-
-This simulation creates a consistent, up-to-date view of all agents’ planned movements and decisions, effectively eliminating communication delay and enabling coordinated decision-making.
+- Agents synchronize knowledge once at the start of the mission.
+- During the mission, agents do not communicate further, but locally simulate each other’s planned actions (and their results).
+- This approach effectively eliminates communication delays and enables coordinated decision-making throughout the mission.
 
 ---
 
 🎯 **Decision Logic and Agent Actions**
-- Agents prioritize survivors based on proximity, rubble requirements, and danger level.  
+- Agents prioritize survivors based on proximity, rubble requirements, other agents' intentions, and self-preservation mechanics.  
 - When rubble blocks a survivor, agents coordinate simultaneous rubble removal.  
-- Energy is managed by routing agents to charging stations before depletion to avoid downtime.  
-- Dynamic replanning occurs as simulated actions update predicted world state after every agent’s move.
-
+- Energy is managed by routing agents to charging stations when current energy is predicted to be insufficient for the next goal.  
+- Dynamic replanning occurs as simulated agent actions continuously update the locally predicted environment state.  
+  
 ---
 
 📅 **Precise Simulation via Execution Order Insight**  
 - The simulation depends on faithfully reproducing the AEGIS client’s sequence of agent thinking and action phases.  
-- Each agent simulates others’ decisions and moves in the exact order the client executes them, ensuring world state consistency.  
-- Requires detailed understanding of the client’s internal processing cycle to prevent divergence between (agent) simulation and actual simulation.
+- Each agent simulates others’ decisions and moves in the exact order the client executes them, ensuring consistent world state.  
+- This requires detailed understanding of the client’s internal processing cycle to prevent divergence between predicted and actual world state.
 
 ---
 
 💻 **Integration with AEGIS API**
 - Agents implement prescribed interface methods to read world state and issue actions.  
-- Uses Python data structures to maintain local agent state and simulated plans.  
+- Python data structures maintain local agent state and simulated plans.
 - Runs within the official AEGIS client simulation environment.
 
 ---
-
-📌 **Message Passing Protocol**
-- One initial broadcast message at round start to synchronize full agent knowledge.  
-- No further communication during the round; all coordination emerges from local simulation.
 
 &nbsp;
 # 📚 Technical Writeup (the interesting part!)
