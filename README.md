@@ -1,4 +1,4 @@
-# 📊 AEGIS Multi-Agent Rescue AI (2023)
+# 📊 AEGIS Multi-Agent Rescue AI (2025)
 ![](writeup-assets/AEGIS_Simulation.gif)
 A coordinated multi-agent AI built in Python for the University of Calgary’s CPSC383 course, designed to rescue survivors in a grid-based simulation with complex constraints like rubble removal, energy management, and limited communication.
 
