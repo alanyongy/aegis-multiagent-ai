@@ -87,7 +87,7 @@ This simulation creates a consistent, up-to-date view of all agents’ planned m
 > </details>
 
 ### 3. Centralized Planning Pitfalls
-Why not a centralized leader?
+*Why not a centralized leader?*
 > <details>
 > <summary>Click to Expand</summary>
 > One possible approach would have been to assign one agent to plan all agents’ actions, then distribute them via messages.
