@@ -162,8 +162,6 @@ Currently, agents synchronize all shared information once at the start of each m
 - This design minimizes communication overhead and enables efficient simulation of agent actions throughout the round.  
 - For scenarios where agents might diverge in knowledge, adding periodic synchronization points could improve robustness without sacrificing too much efficiency.
 
----
-
 &nbsp;
 # 🧠 Lessons Learned
 
