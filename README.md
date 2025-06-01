@@ -49,6 +49,14 @@ This simulation creates a consistent, up-to-date view of all agents’ planned m
 - One initial broadcast message at round start to synchronize full agent knowledge.  
 - No further communication during the round; all coordination emerges from local simulation.
 
+---
+
+📅 **Precise Simulation via Execution Order Insight**  
+- The deployed system hinges on correctly simulating each agent's behavior in a specific order — matching the AEGIS client's actual execution cycle.  
+- Agents simulate all others' decisions and actions in turn-by-turn order, taking into account the effects of prior agent actions on the world state.  
+- Achieving this required a deep understanding of AEGIS internals: how thinking phases, action phases, and message passing are processed across agents.  
+- Without this alignment, simulations would quickly diverge from reality, breaking coordination and resulting in poor performance.
+
 &nbsp;
 # 📚 Technical Writeup (the interesting part!)
 
