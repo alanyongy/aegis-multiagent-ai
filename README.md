@@ -143,3 +143,15 @@ This includes running heavier algorithms such as A* pathfinding multiple times �
 
 🧩 **Balancing Accuracy and Performance**  
 Careful trade-offs between simulation detail and runtime efficiency enable practical real-time decision-making in multi-agent contexts.
+
+&nbsp
+## ⚙️ How to Run
+> <details>
+> <summary>Click to expand</summary>
+> This repo contains **only the agent code**. To run it, you must install the [AEGIS simulator](https://cpsc-383.github.io/aegis/) locally.
+> 
+> 1. Follow the installation guide on the [AEGIS website](https://cpsc-383.github.io/aegis/mas/getting-started/installation/)
+> 2. Place this repo’s `exampleagent.py` file in the appropriate agents directory  
+> *Although the file is named exampleagent.py, it is the exact agent code as described in this writeup. It is named to reduce the steps needed to run, as the AEGIS client references exampleagent.py by default*
+> 3. Run the AEGIS simulation via the official client with a test world
+> </details>
