@@ -133,5 +133,12 @@ Proper sequencing and prediction of other agents’ actions is key to coordinate
 
 ---
 
+🧮 **Increased Computational Load Per Agent**  
+Each agent is responsible for simulating the decisions of every other agent during its turn.  
+This includes running heavier algorithms such as A* pathfinding multiple times — once per agent — per simulated turn.
+
+**However:** On modern hardware, and with reasonable limits on the number of agents and survivors (e.g. <100 total), the total computation comfortably fits within the 1-second decision timeout window defined by the assignment.
+---
+
 🧩 **Balancing Accuracy and Performance**  
 Careful trade-offs between simulation detail and runtime efficiency enable practical real-time decision-making in multi-agent contexts.
