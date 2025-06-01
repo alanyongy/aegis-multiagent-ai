@@ -1,6 +1,6 @@
 # 📊 AEGIS Multi-Agent Rescue AI (2025)
 ![](writeup-assets/AEGIS_Simulation.gif)  
-A coordinated multi-agent AI built in Python for the University of Calgary’s AEGIS simulation platform, designed to rescue survivors in a grid-based simulation with complex constraints like rubble removal, energy management, and significant communication delays.
+An self-coordinating AI built in Python for the University of Calgary’s multi-agent simulation platform AEGIS, designed to rescue survivors in a grid-based simulation with complex constraints like rubble removal, energy management, and significant communication delays.
 
 ---
 
