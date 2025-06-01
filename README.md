@@ -18,6 +18,7 @@ Effective coordination under communication constraints is challenging. The task 
 - Synchronization of agent states at start of each round via a single message  
 - Energy management and hazard navigation integrated into agent decision-making  
 - Designed for optimal survivor rescue in minimal turns
+- Strategy 
 
 &nbsp;
 # 🧠 Implementation Overview
@@ -86,17 +87,42 @@ This simulation creates a consistent, up-to-date view of all agents’ planned m
 > This results in swift, uninterrupted rescue operations with minimal idle time.
 > </details>
 
-### 3. Centralized Planning Pitfalls
+### 3. Exploiting AEGIS Execution Order  
+*How understanding the AEGIS client's internal execution cycle enabled synchronized simulations across agents.*
+
+> <details>
+> <summary>Click to Expand</summary>
+>
+> In order for our agents to simulate all other agents accurately — without runtime communication — we needed to ensure their internal predictions matched what actually happened in the simulation.
+>
+> This required deep understanding of the AEGIS simulation loop:
+> - Each agent goes through a **thinking phase**, where they observe the world and generate actions.
+> - Messages sent during that phase are **delivered one turn later**.
+> - Agents **act in a consistent, deterministic order** defined by the client.
+>
+> **Our Strategy**:
+> - Synchronize all agents with a single broadcast message at the start of the simulation.
+> - On each subsequent turn, every agent independently simulates all agents' thought processes and actions — in the same order the client will execute them.
+> - Since the world changes *between* each agent’s action, our simulations accounted for cascading effects (e.g., rubble being removed before another agent reaches it).
+>
+> This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence.
+> - Without full knowledge of this, agent plans would rapidly desynchronize.
+>
+> This subtle implementation detail was key to achieving real-time coordination without the delays or complexity of message-based planning.
+> </details>
+
+### 4. Centralized Planning Pitfalls
 *Why not a centralized leader?*
 > <details>
 > <summary>Click to Expand</summary>
+>
 > One possible approach would have been to assign one agent to plan all agents’ actions, then distribute them via messages.
 > However, due to the 1-turn delay in message passing, this would result in every agent acting on outdated information.
 > 
 > Furthermore, in the event that information sharing between agents is required (information regarding previously-buried rubble), the delay would be even greater - one turn to reach the leader, and another for the leader's updated orders to reach all other agents.
 > For example, even if the leader perfectly planned actions for all agents in turn `t`, they would only receive their instructions in turn `t+1` — at which point the world state has already changed.
 > 
-> The simulation-based decentralized strategy avoids this problem entirely by giving every agent an identical, up-to-date plan from the start of each round.
+> This decentralized strategy avoids this delay by giving every agent the responsibility to make their own decisions at the start of each round.
 > </details>
 
 &nbsp;
