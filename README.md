@@ -8,7 +8,7 @@ A coordinated multi-agent AI built in Python for the University of Calgary’s C
 AEGIS is a multi-agent rescue simulation where multiple autonomous agents must collaborate to rescue survivors trapped in a hazardous grid world. Survivors may be trapped under rubble that requires multiple agents working simultaneously to clear, and agents have limited energy, requiring strategic use of charging stations. **Communication between agents is limited by a 1-turn delay in message passing.**
 
 **Why it matters:**  
-Designing systems that coordinate effectively under communication constraints mirrors challenges in real-world robotics, distributed AI, and disaster response simulations. The project pushed us to develop agents that could reason about each other's future actions in a constantly changing environment — achieving coordination without constant communication.
+Designing systems that coordinate effectively under communication constraints reflects challenges in real-world robotics, distributed AI, and disaster response simulations. The system demonstrates agents capable of reasoning about and adapting to others’ future actions without explicit communication, enabling high-efficiency coordination.
 
 ---
 
