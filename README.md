@@ -87,15 +87,17 @@ This simulation creates a consistent, up-to-date view of all agents’ planned m
 > </details>
 
 ### 3. Centralized Planning Pitfalls
-> ❌ Why not a centralized leader?
-> 
+Why not a centralized leader?
+> <details>
+> <summary>Click to Expand</summary>
 > One possible approach would have been to assign one agent to plan all agents’ actions, then distribute them via messages.
 > However, due to the 1-turn delay in message passing, this would result in every agent acting on outdated information.
+> 
 > Furthermore, in the event that information sharing between agents is required (information regarding previously-buried rubble), the delay would be even greater - one turn to reach the leader, and another for the leader's updated orders to reach all other agents.
 > For example, even if the leader perfectly planned actions for all agents in turn `t`, they would only receive their instructions in turn `t+1` — at which point the world state has already changed.
 > 
 > The simulation-based decentralized strategy avoids this problem entirely by giving every agent an identical, up-to-date plan from the start of each round.
-
+> </details>
 &nbsp;
 # 🏆 Results & Impact
 
