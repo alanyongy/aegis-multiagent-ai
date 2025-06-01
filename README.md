@@ -48,7 +48,7 @@ Designing systems that coordinate effectively under communication constraints re
 - Runs within the official AEGIS client simulation environment.
 
 &nbsp;
-# 📚 Technical Writeup (the interesting part!)
+# 📚 Technical Writeup <sup><sub>(the interesting part!)</sub></sup>
 
 ### 1. Simulating Other Agents’ Decisions
 
