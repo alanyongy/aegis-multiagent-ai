@@ -47,8 +47,6 @@ Designing systems that coordinate effectively under communication constraints re
 - Python data structures maintain local agent state and simulated plans.
 - Runs within the official AEGIS client simulation environment.
 
----
-
 &nbsp;
 # 📚 Technical Writeup (the interesting part!)
 
