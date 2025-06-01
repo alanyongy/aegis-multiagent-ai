@@ -196,7 +196,7 @@ Reverse-engineering the AEGIS client’s update cycle was essential to ensuring 
 
 &nbsp;
 # ⚙️ How to Run
-**This is not recommended - see the [Technical Writeup](#-technical-writeup-the-interesting-part) instead if you haven't already!*
+**This is not recommended - read the [Technical Writeup](#-technical-writeup-the-interesting-part) instead if you haven't already!*
 > <details>
 > <summary>Click to expand</summary>
 > 
