@@ -54,7 +54,7 @@ Designing systems that coordinate effectively under communication constraints re
 
 ### 1. Simulating Other Agents’ Decisions
 
-*Each agent locally simulates every other agent’s upcoming decisions within its own turn to circumvent communication delay.*  
+*Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
 > <details>
 > <summary>Click to Expand</summary>
 >
@@ -73,9 +73,11 @@ Designing systems that coordinate effectively under communication constraints re
 > ![](writeup-assets/AgentSimulationDiagram.png)
 > </details>
 
+
+&nbsp;
 ### 2. Coordinated Rubble Removal & Energy Management
 
-*Agents plan multi-turn coordinated actions to efficiently clear rubble and maintain energy levels.*  
+*PLanning multi-turn coordinated actions to efficiently clear rubble and maintain energy levels.*  
 > <details>
 > <summary>Click to Expand</summary>
 >
@@ -87,8 +89,9 @@ Designing systems that coordinate effectively under communication constraints re
 > This results in swift, uninterrupted rescue operations with minimal idle time.
 > </details>
 
+&nbsp;
 ### 3. Exploiting AEGIS Execution Order  
-*How understanding the AEGIS client's internal execution cycle enabled synchronized simulations across agents.*
+*How understanding the AEGIS client's internal execution cycle was critical to accurately simulating agents.*
 
 > <details>
 > <summary>Click to Expand</summary>
@@ -111,6 +114,7 @@ Designing systems that coordinate effectively under communication constraints re
 > This subtle implementation detail was key to achieving real-time coordination without the delays or complexity of message-based planning.
 > </details>
 
+&nbsp;
 ### 4. Centralized Planning Pitfalls
 *Why not a centralized leader?*
 > <details>
