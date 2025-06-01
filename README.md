@@ -58,7 +58,7 @@ Designing systems that coordinate effectively under communication constraints re
 > <details>
 > <summary>Click to Expand</summary>
 >
-> At the start of each round, agents send a single synchronization message containing all known states.
+> At the start of each mission, agents send a single synchronization message containing all known states.
 >
 > Each agent, on its turn, executes the following loop:
 >
@@ -135,40 +135,66 @@ Designing systems that coordinate effectively under communication constraints re
 
 &nbsp;
 # 🧹 Caveats
-🧮 **Increased Computational Load Per Agent**  
-Each agent is responsible for simulating the decisions of every other agent during its turn.  
-This includes running heavier algorithms such as A* pathfinding multiple times — once per agent — per simulated turn.
 
-**However:** On modern hardware, and with reasonable limits on the number of agents and survivors (e.g. <100 total), the total computation comfortably fits within the 1-second decision timeout window defined by the assignment.
-
-
----
-
-🔄 **Assumes Accurate State Synchronization**  
-Relies on accurate initial synchronization; any mismatch can propagate errors in simulation predictions.
+### 📈 Scalability Considerations  
+Simulating all agents' actions sequentially leads to quadratic computational complexity as the number of agents grows. In our project scope (small teams), performance remained efficient and met all timing requirements.  
+- This strategy enabled full knowledge and coordination, trading off raw scalability for precision and simplicity.  
+- For larger-scale systems, techniques such as grouping agents based on spatial proximity or task compartmentalization could allow agents to simulate only their local group members, significantly reducing computational overhead and eliminating quadratic scaling while preserving coordination.
 
 ---
 
-⚠️ **Simplified Communication Model**  
-Works well within the assignment’s message constraints but may require adaptation for more complex or noisy channels.
+### 🤖 Dependence on Consistent Agent Logic  
+The simulation assumes all agents run identical decision-making logic based on shared state. This ensured seamless synchronization and predictable behavior, vital for successful coordination.  
+- This makes the strategy difficult to apply in heterogeneous systems where agents have different behaviors or logic, as inconsistent decision-making models would break the simulation’s assumptions.
+
+---
+
+### 🎯 Mostly Deterministic World Model  
+The project leveraged AEGIS’s almost fully deterministic environment to achieve accurate multi-agent simulations. This enabled precise predictions of agent interactions and outcomes, forming the basis for our innovative communication-free coordination.  
+- While real-world uncertainty poses additional challenges, mastering deterministic coordination lays important groundwork for future extensions into probabilistic and dynamic scenarios.
+
+---
+
+### 🔄 Limited Synchronization Points  
+Currently, agents synchronize all shared information once at the start of each mission round via a single message.  
+- This design minimizes communication overhead and enables efficient simulation of agent actions throughout the round.  
+- For scenarios where agents might diverge in knowledge, adding periodic synchronization points could improve robustness without sacrificing too much efficiency.
+
+---
 
 &nbsp;
 # 🧠 Lessons Learned
-⚙️ **Simulation as Coordination Mechanism**  
-Using local simulation to overcome communication delays can effectively mimic shared memory in decentralized systems.
+
+### 🤖 Leveraging Agent Simulation for Coordination  
+Simulating other agents’ planned actions locally allowed us to bypass the 1-turn communication delay inherent in AEGIS. 
+- This insight was critical in enabling real-time coordination and multi-agent tasks like rubble removal.
+- In practice, this meant agents could anticipate teammates’ moves and avoid costly idle time or conflicts.
+- This paradigm highlights the power of predictive internal models in distributed AI systems facing communication constraints.
 
 ---
 
-🤝 **Multi-Agent Collaboration Design**  
-Proper sequencing and prediction of other agents’ actions is key to coordinated multi-agent behavior in dynamic, constrained environments.
-
+### 🔍 Handling Partial Observability and Uncertainty  
+While our system leveraged AEGIS’s mostly deterministic environment, the presence of hidden survivors and rubble information forced agents to act cautiously and rely on synchronized knowledge. 
+- This experience underscored the importance of designing AI systems that can balance risk and information gaps — a core challenge in real-world robotics and disaster response.
+  
 ---
 
-🧩 **Balancing Accuracy and Performance**  
-Careful trade-offs between simulation detail and runtime efficiency enable practical real-time decision-making in multi-agent contexts.
+### 🗣️ Tailoring Communication Protocols to Latency and Bandwidth Constraints  
+The imposed 1-turn delay forced us to heavily prioritize what information was shared and when. 
+- Sending a single synchronization at the start of each mission, combined with local simulations, struck a balance between communication overhead and up-to-date coordination.
+- This tradeoff demonstrated that communication design must be tightly integrated with scenario's timing and computational constraints.
+  - In this case, we had an abundance of computation available, but a very harsh latency in traditional communication.
+  - Thus, we were able to use computation instead of message sending to make up for the vast majority of communication that needed to take place.
+  
+---
+
+### 🧩 Deep Understanding of Execution Order is Crucial  
+Reverse-engineering the AEGIS client’s update cycle was essential to ensuring all agents’ internal simulations aligned with actual actions, preventing divergence.
+- This reflects the importance of intimate system knowledge when designing tightly-coupled multi-agent coordination schemes.
 
 &nbsp;
-## ⚙️ How to Run
+# ⚙️ How to Run
+*This is not recommended - see the [Technical Writeup](#-technical-writeup-the-interesting-part) instead if you haven't already!
 > <details>
 > <summary>Click to expand</summary>
 >
