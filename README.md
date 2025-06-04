@@ -56,6 +56,7 @@ Designing systems that coordinate effectively under communication constraints re
 > <details>
 > <summary>Click to Expand</summary>
 >
+> &nbsp;
 > At the start of each mission, agents send a single synchronization message containing all known states.  
 > ![](writeup-assets/round-1-sync.png) 
 > *Some information is able to be gathered individually with no time cost, by querying each cell in the map - critically, this includes whether there is a survivor on a cell.*  
@@ -66,10 +67,20 @@ Designing systems that coordinate effectively under communication constraints re
 > However, agents still have work to do before moving: gathering more information about cells which contain survivors.  
 > *Since "OBSERVE" takes up a turn, agents need to coordinate which cells (with survivors) they observe.*  
 > 
-> A unique cell containing a survivor is assigned to each agent without communication with the following formula: `indexToObserve = (round-1)*numOfAgents+id-1`  
-> *Note that the number of agents was fixed 7 in this world. `id` refers to the current agent's id, since this code runs locally on each agent.*  
+> A unique cell containing a survivor is assigned to each agent without communication with the following formula:  
+> `indexToObserve = (round-1)*numOfAgents+agentID-1`
 > ![](writeup-assets/observe-assignment-by-id.png)  
 >
+> The observed information about these cells with survivors (rubble information, number of survivors, etc) is message to all other agents.  
+> When an agent's indexToObserve is larger than the list of cells with survivors, they send a message to all agents to end the synchronzation stage.
+>
+> </details>
+
+### 2. 
+> <details>
+> <summary>Click to Expand</summary>
+>
+> &nbsp;
 > Each agent, on its turn, executes the following loop:
 >
 > - For each agent ID (including self), simulate the agent’s next action based on the synchronized shared state and updated predictions from prior simulations in the turn.
@@ -82,7 +93,6 @@ Designing systems that coordinate effectively under communication constraints re
 >
 > ![](writeup-assets/AgentSimulationDiagram.png)
 > </details>
-
 
 &nbsp;
 ### 2. Coordinated Rubble Removal & Energy Management
