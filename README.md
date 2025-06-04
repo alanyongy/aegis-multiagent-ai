@@ -55,9 +55,10 @@ Designing systems that coordinate effectively under communication constraints re
 *Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
 > <details>
 > <summary>Click to Expand</summary>
+>
 > At the start of each mission, agents send a single synchronization message containing all known states.  
 > ![](writeup-assets/round-1-sync-code.png) 
-> *Some information is able to be gathered individually with no time cost - critically, whether there is a survivor on a cell.*  
+> *Some information is able to be gathered individually with no time cost, by querying each cell in the map - critically, this includes whether there is a survivor on a cell.*  
 > 
 > Agents do not immediately move on round 1, as the local information known to each agent is not yet consistent with all others.  
 > *The synchronization message will arrive at the start of round 2, during the thinking phase.*  
