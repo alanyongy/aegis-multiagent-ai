@@ -56,7 +56,7 @@ Designing systems that coordinate effectively under communication constraints re
 > <details>
 > <summary>Click to Expand</summary>
 > At the start of each mission, agents send a single synchronization message containing all known states.  
-> [](/writeup-assets/round-1-sync-code.png)  
+> [](writeup-assets/round-1-sync-code.png)  
 > *Some information is able to be gathered individually with no time cost - critically, whether there is a survivor on a cell.*  
 > 
 > Agents do not immediately move on round 1, as the local information known to each agent is not yet consistent with all others.  
@@ -67,7 +67,7 @@ Designing systems that coordinate effectively under communication constraints re
 > 
 > A unique cell containing a survivor is assigned to each agent without communication with the following formula: `indexToObserve = (round-1)*numOfAgents+id-1`  
 > *Note that the number of agents was fixed 7 in this world. `id` refers to the current agent's id, since this code runs locally on each agent.*  
-> [](/writeup-assets/observe-assignment-by-id.png)  
+> [](writeup-assets/observe-assignment-by-id.png)  
 >
 > Each agent, on its turn, executes the following loop:
 >
