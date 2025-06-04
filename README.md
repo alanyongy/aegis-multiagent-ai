@@ -71,7 +71,8 @@ Designing systems that coordinate effectively under communication constraints re
 > `indexToObserve = (round-1)*numOfAgents+agentID-1`
 > ![](writeup-assets/observe-assignment-by-id.png)  
 >
-> The observed information about these cells with survivors (rubble information, number of survivors, etc) is message to all other agents.  
+> The observed information about these cells with survivors (rubble information, number of survivors, etc) is messaged to all other agents.  
+>
 > When an agent's indexToObserve is larger than the list of cells with survivors, they send a message to all agents to end the synchronzation stage.
 >
 > </details>
