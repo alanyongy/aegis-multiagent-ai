@@ -52,7 +52,6 @@ Designing systems that coordinate effectively under communication constraints re
 
 ### 1. Mission Start Synchronization
 
-*Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
 > <details>
 > <summary>Click to Expand</summary>
 >
@@ -78,20 +77,17 @@ Designing systems that coordinate effectively under communication constraints re
 > </details>
 
 &nbsp;
-### 2. Simulating Other Agents’ Decisions
+### 2. Simulating Other Agents’ Decisions  
+*Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
 > <details>
 > <summary>Click to Expand</summary>
 >
 > &nbsp;  
-> Each agent, on its own turn, executes the following loop:
->
-> - For each agent (including self), simulate the next action based on the simulated world state.
+> Each agent, on its own turn, executes the following steps:
+> - For each agent (including self), simulate the decision making process for this agent's next action based on the simulated world state.
 > - Update the world state to reflect the changes as a result of the predicted action (even though the action has not yet been carried out!)
-> - Update internal world model with the predicted outcome of that agent’s action.
-> - Use these updated predictions to inform its own next action choice.
 >
-> This results in every agent having a virtually consistent and up-to-date understanding of all other agents’ planned moves, despite communication lag.
->
+> This results in every agent having a virtually consistent and up-to-date understanding of all other agents’ planned moves, despite communication lag.  
 > This simulation-driven coordination enables precise timing for multi-agent rubble removal and energy sharing.
 >
 > ![](writeup-assets/AgentSimulationDiagram.png)
@@ -100,7 +96,7 @@ Designing systems that coordinate effectively under communication constraints re
 &nbsp;
 ### 2. Coordinated Rubble Removal & Energy Management
 
-*PLanning multi-turn coordinated actions to efficiently clear rubble and maintain energy levels.*  
+
 > <details>
 > <summary>Click to Expand</summary>
 >
