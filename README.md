@@ -56,7 +56,7 @@ Designing systems that coordinate effectively under communication constraints re
 > <details>
 > <summary>Click to Expand</summary>
 >
-> &nbsp;
+> &nbsp;  
 > At the start of each mission, agents send a single synchronization message containing all known states.  
 > ![](writeup-assets/round-1-sync.png) 
 > *Some information is able to be gathered individually with no time cost, by querying each cell in the map - critically, this includes whether there is a survivor on a cell.*  
@@ -77,14 +77,16 @@ Designing systems that coordinate effectively under communication constraints re
 >
 > </details>
 
-### 2. 
+&nbsp;
+### 2. Simulating Other Agents’ Decisions
 > <details>
 > <summary>Click to Expand</summary>
 >
-> &nbsp;
-> Each agent, on its turn, executes the following loop:
+> &nbsp;  
+> Each agent, on its own turn, executes the following loop:
 >
-> - For each agent ID (including self), simulate the agent’s next action based on the synchronized shared state and updated predictions from prior simulations in the turn.
+> - For each agent (including self), simulate the next action based on the simulated world state.
+> - Update the world state to reflect the changes as a result of the predicted action (even though the action has not yet been carried out!)
 > - Update internal world model with the predicted outcome of that agent’s action.
 > - Use these updated predictions to inform its own next action choice.
 >
