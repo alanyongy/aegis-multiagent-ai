@@ -122,21 +122,18 @@ Designing systems that coordinate effectively under communication constraints re
 > - Since the world will change as a result of each agent’s action, update the simulated world state with the impact of each simulated agent action. 
 >   - The simulation of `agent 2` (by each agent) uses the world state that has been modified by the action simulated for `agent 1`  
 > 
-> ![](writeup-assets/agent-simulation-v4.png)
-> 
+> ![](writeup-assets/agent-simulation-v4.png)  
 > *This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence. Without full knowledge of this, agent plans would rapidly desynchronize.*
 >
-> This subtle implementation detail was key to achieving real-time coordination without the delays or complexity of message-based planning.
->
-> &nbsp;  
+> To summarize:  
 > Each agent, on its own turn, executes the following steps:
 > - For each agent (including self), simulate the decision making process for this agent's next action based on the simulated world state.
-> - Update the world state to reflect the changes as a result of the predicted action (even though the action has not yet been carried out!)
+> - Before moving onto simulating the next agent, update the simulated world state to reflect the changes as a result of the predicted action (even though the action has not yet been carried out within the AEGIS simulation!)
 >
-> ![](writeup-assets/agent-simulation.png)
-> This results in every agent having a virtually consistent and up-to-date understanding of all other agents’ planned moves, despite communication lag.  
-> This simulation-driven coordination enables precise timing for multi-agent rubble removal and energy sharing.
+> This results in every agent having a consistent and up-to-date understanding of all other agents’ planned moves and overall world state, despite the total lack of communication.
 >
+> Note:  
+> It important to simulate all agents — even those that move after the agent who currently deciding their action — as this keeps the simulated world state accurate for the next turn.
 > </details>
 
 &nbsp;
