@@ -121,7 +121,7 @@ Designing systems that coordinate effectively under communication constraints re
 > - Synchronize all agents with a single broadcast message at the start of the simulation.
 > - On each subsequent turn, every agent independently simulates all agents' thought processes and actions — in the same order the client will execute them.
 > - Since the world will change as a result of each agent’s action, our simulations update the simulated world state with each simulated agent action. 
->   - The simulation of `agent 2` (by each agent) will be on the world state that has been modified by the action simulated for `agent 1`
+>   - The simulation of `agent 2` (by each agent) will be on the world state that has been modified by the action simulated for `agent 1`  
 > ![](writeup-assets/agent-simulation.png)
 > 
 > *This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence. Without full knowledge of this, agent plans would rapidly desynchronize.*
