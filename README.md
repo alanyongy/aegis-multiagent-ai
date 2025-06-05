@@ -58,13 +58,13 @@ Designing systems that coordinate effectively under communication constraints re
 > &nbsp;  
 > At the start of each mission, agents send a single synchronization message containing all known states.  
 > ![](writeup-assets/round-1-sync.png) 
-> *Some information is able to be gathered individually with no time cost, by querying each cell in the map - critically, this includes whether there is a survivor on a cell.*  
+> *Some information can be gathered individually at no time cost by querying each cell on the map — critically, this includes whether there is a survivor on a given cell.*
 > 
-> Agents do not immediately move on round 1, as the local information known to each agent is not yet consistent with all others.  
+> Agents do not immediately move in round 1, as each agent’s local information is not yet consistent with that of the others. 
 > *The synchronization message will arrive at the start of round 2, during the thinking phase.*  
 >
 > However, agents still have work to do before moving: gathering more information about cells which contain survivors.  
-> *Since "OBSERVE" takes up a turn, agents need to coordinate which cells (with survivors) they observe.*  
+> *Since "OBSERVE" consumes a turn, agents must coordinate which survivor-containing cells they observe.*  
 > 
 > A unique cell containing a survivor is assigned to each agent without communication with the following formula:  
 > `indexToObserve = (round-1)*numOfAgents+agentID-1`
@@ -72,8 +72,9 @@ Designing systems that coordinate effectively under communication constraints re
 >
 > The observed information about these cells with survivors (rubble information, number of survivors, etc) is messaged to all other agents.  
 >
-> When an agent's indexToObserve is larger than the list of cells with survivors, they send a message to all agents to end the synchronzation stage.
+> When an agent’s indexToObserve exceeds the number of survivor-containing cells, it sends a message to all agents to end the synchronization stage (which will be received next round).
 >
+> This early-stage synchronization gives all agents a shared memory baseline, aligning each agent’s simulated world model.
 > </details>
 
 &nbsp;
@@ -89,11 +90,11 @@ Designing systems that coordinate effectively under communication constraints re
 > Navigating this requires a deep understanding of the AEGIS simulation loop:  
 > 1. Each agent goes through a **thinking phase** in ascending order based on their ID.  
 > This is where our code is executed, as the AI file for each agent.  
-> Agents are expected to send a single action, which will be carried out in the **action phase**.  
+> Agents are expected to send a single action, which will be executed during the **action phase**.  
 >
 > 2. Each agent goes through the **action phase** in ascending order based on their ID.  
-> Agents will carry out the action decided in the **thinking phase**.  
->
+> Agents will execute the action determined during the **thinking phase**. 
+> 
 > ```
 > Round x Thinking Phase:
 > 1. Agent 1 decides its next action: Dig Rubble
@@ -101,13 +102,15 @@ Designing systems that coordinate effectively under communication constraints re
 > 3. ...
 > 
 > Round x Action Phase:
-> 1. Agent 1 attempts to dig rubble
-> 2. Agent 2 attempts to save survivor
+> 1. Agent 1 attempts to dig rubble.
+> 2. Agent 2 attempts to save survivor.
 > 3. ...
 >
 > Round x+1 Thinking Phase:
 > ...
 > ```
+>
+> **Because each agent's action is locked in during its thinking phase, no agent can react to the outcome of others' actions within the same round. As a result, accurate coordination requires pre-simulation.**
 > </details>
 
 &nbsp;
@@ -119,25 +122,26 @@ Designing systems that coordinate effectively under communication constraints re
 > With a clear understanding of the AEGIS execution order, we are now able to devise a strategy to bypass communication delays:  
 > - Synchronize all agents with a single broadcast message at the start of the simulation.
 > - On each subsequent turn, every agent independently simulates all agents' thought processes to decide their action, in the same order the client will execute them.
-> - Since the world will change as a result of each agent’s action, update the simulated world state with the impact of each simulated agent action. 
+> - Since the world changes with each agent’s action, the simulated world state must be updated to reflect the impact of each simulated action. 
 >   - The simulation of `agent 2` (by each agent) uses the world state that has been modified by the action simulated for `agent 1`  
 > 
 > ![](writeup-assets/agent-simulation-v4.png)  
-> *This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence. Without full knowledge of this, agent plans would rapidly desynchronize.*
+> *This alignment between simulation and execution was only possible because we reverse-engineered the client’s update sequence. Without full knowledge of it, agent plans would rapidly desynchronize.*
 >
 > To summarize:  
 > Each agent, on its own turn, executes the following steps:
 > - For each agent (including self), simulate the decision making process for this agent's next action based on the simulated world state.
+>   - This involves re-running our agent AI code as if we were that agent, using the current simulated world state, and predicting their chosen action.
 > - Before moving onto simulating the next agent, update the simulated world state to reflect the changes as a result of the predicted action (even though the action has not yet been carried out within the AEGIS simulation!)
 >
-> This results in every agent having a consistent and up-to-date understanding of all other agents’ planned moves and overall world state, despite the total lack of communication.
+> This enables each agent to act with full knowledge of all others' intended moves — achieving perfect coordination without ongoing communication.
 >
 > Note:  
-> It important to simulate all agents — even those that move after the agent who currently deciding their action — as this keeps the simulated world state accurate for the next turn.
+> It is important to simulate all agents — even those that move after the agent who is currently deciding their action — to keep the simulated world state accurate for the next turn.
 > </details>
 
 &nbsp;
-### 2. Coordinated Rubble Removal & Energy Management
+### 4. Examples
 
 
 > <details>
@@ -152,7 +156,7 @@ Designing systems that coordinate effectively under communication constraints re
 > </details>
 
 &nbsp;
-### 4. Centralized Planning Pitfalls
+### 5. Centralized Planning Pitfalls
 *Why not a centralized leader?*
 > <details>
 > <summary>Click to Expand</summary>
