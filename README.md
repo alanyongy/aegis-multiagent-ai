@@ -52,12 +52,12 @@ Designing systems that coordinate effectively under communication constraints re
 
 ### 1. Mission Start Synchronization
 
-*Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
 > <details>
 > <summary>Click to Expand</summary>
 >
+> &nbsp;  
 > At the start of each mission, agents send a single synchronization message containing all known states.  
-> ![](writeup-assets/round-1-sync-code.png) 
+> ![](writeup-assets/round-1-sync.png) 
 > *Some information is able to be gathered individually with no time cost, by querying each cell in the map - critically, this includes whether there is a survivor on a cell.*  
 > 
 > Agents do not immediately move on round 1, as the local information known to each agent is not yet consistent with all others.  
@@ -66,28 +66,37 @@ Designing systems that coordinate effectively under communication constraints re
 > However, agents still have work to do before moving: gathering more information about cells which contain survivors.  
 > *Since "OBSERVE" takes up a turn, agents need to coordinate which cells (with survivors) they observe.*  
 > 
-> A unique cell containing a survivor is assigned to each agent without communication with the following formula: `indexToObserve = (round-1)*numOfAgents+id-1`  
-> *Note that the number of agents was fixed 7 in this world. `id` refers to the current agent's id, since this code runs locally on each agent.*  
+> A unique cell containing a survivor is assigned to each agent without communication with the following formula:  
+> `indexToObserve = (round-1)*numOfAgents+agentID-1`
 > ![](writeup-assets/observe-assignment-by-id.png)  
 >
-> Each agent, on its turn, executes the following loop:
+> The observed information about these cells with survivors (rubble information, number of survivors, etc) is messaged to all other agents.  
 >
-> - For each agent ID (including self), simulate the agent’s next action based on the synchronized shared state and updated predictions from prior simulations in the turn.
-> - Update internal world model with the predicted outcome of that agent’s action.
-> - Use these updated predictions to inform its own next action choice.
+> When an agent's indexToObserve is larger than the list of cells with survivors, they send a message to all agents to end the synchronzation stage.
 >
-> This results in every agent having a virtually consistent and up-to-date understanding of all other agents’ planned moves, despite communication lag.
+> </details>
+
+&nbsp;
+### 2. Simulating Other Agents’ Decisions  
+*Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
+> <details>
+> <summary>Click to Expand</summary>
 >
+> &nbsp;  
+> Each agent, on its own turn, executes the following steps:
+> - For each agent (including self), simulate the decision making process for this agent's next action based on the simulated world state.
+> - Update the world state to reflect the changes as a result of the predicted action (even though the action has not yet been carried out!)
+>
+> This results in every agent having a virtually consistent and up-to-date understanding of all other agents’ planned moves, despite communication lag.  
 > This simulation-driven coordination enables precise timing for multi-agent rubble removal and energy sharing.
 >
 > ![](writeup-assets/AgentSimulationDiagram.png)
 > </details>
 
-
 &nbsp;
 ### 2. Coordinated Rubble Removal & Energy Management
 
-*PLanning multi-turn coordinated actions to efficiently clear rubble and maintain energy levels.*  
+
 > <details>
 > <summary>Click to Expand</summary>
 >
