@@ -172,11 +172,11 @@ Designing systems that coordinate effectively under communication constraints re
 
 &nbsp;
 # 🏆 Results & Impact
-
-- Achieved **100% assignment score** with effective multi-agent coordination strategy.  
+- Transformed an idealized concept — perfect coordination without ongoing communication — into a fully functional simulation-based system.
 - Demonstrated drastically improved rescue efficiency compared to naïve communication models.  
 - Eliminated the 1-turn message delay impact, enabling near real-time cooperation.  
 - Provided a scalable pattern for coordination in other multi-agent systems with communication constraints.
+- Achieved **100% assignment score** with effective multi-agent coordination strategy.
 
 &nbsp;
 # 🧹 Caveats
