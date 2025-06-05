@@ -111,18 +111,18 @@ Designing systems that coordinate effectively under communication constraints re
 > </details>
 
 &nbsp;
-### 2. Simulating Other Agents’ Decisions  
+### 3. Simulating Other Agents’ Decisions  
 *Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
 > <details>
 > <summary>Click to Expand</summary>
 >
-> With a clear understanding of the AEGIS execution order, we are now able to devise a strategy to 
-> **Our Strategy**:
+> With a clear understanding of the AEGIS execution order, we are now able to devise a strategy to bypass communication delays:  
 > - Synchronize all agents with a single broadcast message at the start of the simulation.
-> - On each subsequent turn, every agent independently simulates all agents' thought processes and actions — in the same order the client will execute them.
-> - Since the world will change as a result of each agent’s action, our simulations update the simulated world state with each simulated agent action. 
->   - The simulation of `agent 2` (by each agent) will be on the world state that has been modified by the action simulated for `agent 1`  
-> ![](writeup-assets/agent-simulation.png)
+> - On each subsequent turn, every agent independently simulates all agents' thought processes to decide their action, in the same order the client will execute them.
+> - Since the world will change as a result of each agent’s action, update the simulated world state with the impact of each simulated agent action. 
+>   - The simulation of `agent 2` (by each agent) uses the world state that has been modified by the action simulated for `agent 1`  
+> 
+> ![](writeup-assets/agent-simulation-v2.png)
 > 
 > *This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence. Without full knowledge of this, agent plans would rapidly desynchronize.*
 >
