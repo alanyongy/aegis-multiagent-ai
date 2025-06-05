@@ -77,20 +77,66 @@ Designing systems that coordinate effectively under communication constraints re
 > </details>
 
 &nbsp;
+### 2. Understanding AEGIS Execution Order
+*Understanding the AEGIS client's internal execution cycle is critical to accurately simulating agents.*
+
+> <details>
+> <summary>Click to Expand</summary>
+>
+> &nbsp;  
+> In AEGIS, agents do not act simultaneously. Each agent takes its turn in a defined execution order. This means that by the time one agent acts, other agents may have already moved or altered the world (e.g., moved rubble, rescued survivors, triggered dangers).
+>
+> Navigating this requires a deep understanding of the AEGIS simulation loop:  
+> 1. Each agent goes through a **thinking phase** in ascending order based on their ID.  
+> This is where our code is executed, as the AI file for each agent.  
+> Agents are expected to send a single action, which will be carried out in the **action phase**.  
+>
+> 2. Each agent goes through the **action phase** in ascending order based on their ID.  
+> Agents will carry out the action decided in the **thinking phase**.  
+>
+> ```
+> Round x Thinking Phase:
+> 1. Agent 1 decides its next action: Dig Rubble
+> 2. Agent 2 decides its next action: Save Survivor
+> 3. ...
+> 
+> Round x Action Phase:
+> 1. Agent 1 attempts to dig rubble
+> 2. Agent 2 attempts to save survivor
+> 3. ...
+>
+> Round x+1 Thinking Phase:
+> ...
+> ```
+> </details>
+
+&nbsp;
 ### 2. Simulating Other Agents’ Decisions  
 *Locally simulating every other agent’s decisions within its own turn to circumvent communication delay.*  
 > <details>
 > <summary>Click to Expand</summary>
+>
+> With a clear understanding of the AEGIS execution order, we are now able to devise a strategy to 
+> **Our Strategy**:
+> - Synchronize all agents with a single broadcast message at the start of the simulation.
+> - On each subsequent turn, every agent independently simulates all agents' thought processes and actions — in the same order the client will execute them.
+> - Since the world will change as a result of each agent’s action, our simulations update the simulated world state with each simulated agent action. 
+>   - The simulation of `agent 2` (by each agent) will be on the world state that has been modified by the action simulated for `agent 1`
+> ![](writeup-assets/agent-simulation.png)
+> 
+> *This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence. Without full knowledge of this, agent plans would rapidly desynchronize.*
+>
+> This subtle implementation detail was key to achieving real-time coordination without the delays or complexity of message-based planning.
 >
 > &nbsp;  
 > Each agent, on its own turn, executes the following steps:
 > - For each agent (including self), simulate the decision making process for this agent's next action based on the simulated world state.
 > - Update the world state to reflect the changes as a result of the predicted action (even though the action has not yet been carried out!)
 >
+> ![](writeup-assets/agent-simulation.png)
 > This results in every agent having a virtually consistent and up-to-date understanding of all other agents’ planned moves, despite communication lag.  
 > This simulation-driven coordination enables precise timing for multi-agent rubble removal and energy sharing.
 >
-> ![](writeup-assets/AgentSimulationDiagram.png)
 > </details>
 
 &nbsp;
@@ -106,31 +152,6 @@ Designing systems that coordinate effectively under communication constraints re
 > - Simulation updates allow agents to replan if predicted energy usage or movement conflicts arise.
 >
 > This results in swift, uninterrupted rescue operations with minimal idle time.
-> </details>
-
-&nbsp;
-### 3. Exploiting AEGIS Execution Order  
-*How understanding the AEGIS client's internal execution cycle was critical to accurately simulating agents.*
-
-> <details>
-> <summary>Click to Expand</summary>
->
-> In order for our agents to simulate all other agents accurately — without runtime communication — we needed to ensure their internal predictions matched what actually happened in the simulation.
->
-> This required deep understanding of the AEGIS simulation loop:
-> - Each agent goes through a **thinking phase**, where they observe the world and generate actions.
-> - Messages sent during that phase are **delivered one turn later**.
-> - Agents **act in a consistent, deterministic order** defined by the client.
->
-> **Our Strategy**:
-> - Synchronize all agents with a single broadcast message at the start of the simulation.
-> - On each subsequent turn, every agent independently simulates all agents' thought processes and actions — in the same order the client will execute them.
-> - Since the world changes *between* each agent’s action, our simulations accounted for cascading effects (e.g., rubble being removed before another agent reaches it).
->
-> This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence.
-> - Without full knowledge of this, agent plans would rapidly desynchronize.
->
-> This subtle implementation detail was key to achieving real-time coordination without the delays or complexity of message-based planning.
 > </details>
 
 &nbsp;
