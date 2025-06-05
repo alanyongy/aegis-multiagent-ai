@@ -122,7 +122,7 @@ Designing systems that coordinate effectively under communication constraints re
 > - Since the world will change as a result of each agent’s action, update the simulated world state with the impact of each simulated agent action. 
 >   - The simulation of `agent 2` (by each agent) uses the world state that has been modified by the action simulated for `agent 1`  
 > 
-> ![](writeup-assets/agent-simulation-v2.png)
+> ![](writeup-assets/agent-simulation-v3.png)
 > 
 > *This alignment between simulation and execution was only possible because we reverse-engineered the client's update sequence. Without full knowledge of this, agent plans would rapidly desynchronize.*
 >
